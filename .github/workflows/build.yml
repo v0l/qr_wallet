@@ -54,19 +54,21 @@ jobs:
         run: |
           mv build/app/outputs/flutter-apk/app-release.apk qr-wallet-android.apk
           mv build/app/outputs/bundle/release/app-release.aab qr-wallet-android.aab
-      # NOTE: GitHub always wraps downloaded artifacts in a .zip. For a
-      # directly installable APK use the rolling `nightly` release (main) or a
-      # tagged release, where assets are attached raw.
-      - uses: actions/upload-artifact@v4
+      # `archive: false` (upload-artifact v7) uploads the file un-zipped, so
+      # the APK downloads straight from the run page and installs directly.
+      # The artifact is named after the file; the `name` input is ignored.
+      - uses: actions/upload-artifact@v7
         with:
           name: android-apk
           path: qr-wallet-android.apk
           if-no-files-found: error
-      - uses: actions/upload-artifact@v4
+          archive: false
+      - uses: actions/upload-artifact@v7
         with:
           name: android-aab
           path: qr-wallet-android.aab
           if-no-files-found: error
+          archive: false
 
   # -------------------------------------------------------------------- iOS ---
   ios:
@@ -86,12 +88,13 @@ jobs:
           cd build/ios/iphoneos
           mkdir -p Payload
           cp -R Runner.app Payload/
-          zip -r -y "$GITHUB_WORKSPACE/qr_wallet-ios-unsigned.ipa" Payload
-      - uses: actions/upload-artifact@v4
+          zip -r -y "$GITHUB_WORKSPACE/qr-wallet-ios-unsigned.ipa" Payload
+      - uses: actions/upload-artifact@v7
         with:
           name: ios
-          path: qr_wallet-ios-unsigned.ipa
+          path: qr-wallet-ios-unsigned.ipa
           if-no-files-found: error
+          archive: false
 
   # ------------------------------------------------------------------ macOS ---
   macos:
@@ -109,12 +112,13 @@ jobs:
       - name: Zip .app
         run: |
           cd build/macos/Build/Products/Release
-          zip -r -y "$GITHUB_WORKSPACE/qr_wallet-macos.zip" "QR Wallet.app"
-      - uses: actions/upload-artifact@v4
+          zip -r -y "$GITHUB_WORKSPACE/qr-wallet-macos.zip" "QR Wallet.app"
+      - uses: actions/upload-artifact@v7
         with:
           name: macos
-          path: qr_wallet-macos.zip
+          path: qr-wallet-macos.zip
           if-no-files-found: error
+          archive: false
 
   # ------------------------------------------------------------------ Linux ---
   linux:
@@ -137,12 +141,13 @@ jobs:
       - name: Tar bundle
         run: |
           cd build/linux/x64/release/bundle
-          tar czf "$GITHUB_WORKSPACE/qr_wallet-linux-x64.tar.gz" .
-      - uses: actions/upload-artifact@v4
+          tar czf "$GITHUB_WORKSPACE/qr-wallet-linux-x64.tar.gz" .
+      - uses: actions/upload-artifact@v7
         with:
           name: linux
-          path: qr_wallet-linux-x64.tar.gz
+          path: qr-wallet-linux-x64.tar.gz
           if-no-files-found: error
+          archive: false
 
   # ---------------------------------------------------------------- Windows ---
   windows:
@@ -161,12 +166,13 @@ jobs:
         shell: pwsh
         run: |
           Compress-Archive -Path build/windows/x64/runner/Release/* `
-            -DestinationPath qr_wallet-windows-x64.zip
-      - uses: actions/upload-artifact@v4
+            -DestinationPath qr-wallet-windows-x64.zip
+      - uses: actions/upload-artifact@v7
         with:
           name: windows
-          path: qr_wallet-windows-x64.zip
+          path: qr-wallet-windows-x64.zip
           if-no-files-found: error
+          archive: false
 
   # -------------------------------------------------------------------- Web ---
   web:
@@ -182,12 +188,13 @@ jobs:
       - name: Build Web (release)
         run: flutter build web --release
       - name: Tar bundle
-        run: tar czf "$GITHUB_WORKSPACE/qr_wallet-web.tar.gz" -C build/web .
-      - uses: actions/upload-artifact@v4
+        run: tar czf "$GITHUB_WORKSPACE/qr-wallet-web.tar.gz" -C build/web .
+      - uses: actions/upload-artifact@v7
         with:
           name: web
-          path: qr_wallet-web.tar.gz
+          path: qr-wallet-web.tar.gz
           if-no-files-found: error
+          archive: false
 
   # ---------------------------------------------------- Release (on tags) -----
   release:
@@ -197,7 +204,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: dist
       - name: Flatten
@@ -212,8 +219,7 @@ jobs:
           generate_release_notes: true
 
   # ------------------------------------- Rolling nightly release (on main) ----
-  # Artifacts from the Actions UI are always zipped; this attaches the raw
-  # files (installable .apk, etc.) to a rolling pre-release instead.
+  # Convenience: stable download URLs for the latest `main` build.
   nightly:
     if: github.ref == 'refs/heads/main'
     needs: [android, ios, macos, linux, windows, web]
@@ -222,7 +228,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: dist
       - name: Flatten

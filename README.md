@@ -98,8 +98,9 @@ release artifacts for Android (APK + AAB), iOS (unsigned IPA), macOS, Linux,
 Windows and web on every push/PR. Pushing a `v*` tag publishes all artifacts to
 a GitHub Release.
 
-Note that artifacts downloaded from the Actions UI are always wrapped in a
-`.zip` by GitHub. For a directly installable APK, grab
-`qr-wallet-android.apk` from the rolling
+Artifacts are uploaded with `actions/upload-artifact@v7` and `archive: false`,
+so `qr-wallet-android.apk` downloads un-zipped from the run page and installs
+directly. The same raw files are also attached to the rolling
 [`nightly`](https://github.com/v0l/qr_wallet/releases/tag/nightly) pre-release
-(rebuilt on every push to `main`) or from a tagged release.
+(rebuilt on every push to `main`) and to tagged releases, where GitHub serves
+the APK as `application/vnd.android.package-archive`.
