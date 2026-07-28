@@ -24,18 +24,18 @@ enum CodeFormat {
 
   /// True for 2D symbologies (rendered square-ish, no human readable text).
   bool get isMatrix => const {
-        CodeFormat.qr,
-        CodeFormat.aztec,
-        CodeFormat.dataMatrix,
-        CodeFormat.pdf417,
-      }.contains(this);
+    CodeFormat.qr,
+    CodeFormat.aztec,
+    CodeFormat.dataMatrix,
+    CodeFormat.pdf417,
+  }.contains(this);
 
   Barcode get barcode => Barcode.fromType(barcodeType);
 
   static CodeFormat fromName(String? name) => CodeFormat.values.firstWhere(
-        (f) => f.name == name,
-        orElse: () => CodeFormat.qr,
-      );
+    (f) => f.name == name,
+    orElse: () => CodeFormat.qr,
+  );
 }
 
 /// A stored loyalty card / ticket / code.
@@ -73,40 +73,39 @@ class CodeEntry {
     int? color,
     String? icon,
     String? note,
-  }) =>
-      CodeEntry(
-        id: id,
-        label: label ?? this.label,
-        data: data ?? this.data,
-        format: format ?? this.format,
-        color: color ?? this.color,
-        icon: icon ?? this.icon,
-        note: note ?? this.note,
-        createdAt: createdAt,
-      );
+  }) => CodeEntry(
+    id: id,
+    label: label ?? this.label,
+    data: data ?? this.data,
+    format: format ?? this.format,
+    color: color ?? this.color,
+    icon: icon ?? this.icon,
+    note: note ?? this.note,
+    createdAt: createdAt,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'label': label,
-        'data': data,
-        'format': format.name,
-        'color': color,
-        if (icon != null) 'icon': icon,
-        if (note != null) 'note': note,
-        'createdAt': createdAt.toIso8601String(),
-      };
+    'id': id,
+    'label': label,
+    'data': data,
+    'format': format.name,
+    'color': color,
+    if (icon != null) 'icon': icon,
+    if (note != null) 'note': note,
+    'createdAt': createdAt.toIso8601String(),
+  };
 
   factory CodeEntry.fromJson(Map<String, dynamic> json) => CodeEntry(
-        id: json['id'] as String,
-        label: json['label'] as String? ?? '',
-        data: json['data'] as String? ?? '',
-        format: CodeFormat.fromName(json['format'] as String?),
-        color: (json['color'] as num?)?.toInt() ?? 0xFF3F51B5,
-        icon: json['icon'] as String?,
-        note: json['note'] as String?,
-        createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
-            DateTime.now(),
-      );
+    id: json['id'] as String,
+    label: json['label'] as String? ?? '',
+    data: json['data'] as String? ?? '',
+    format: CodeFormat.fromName(json['format'] as String?),
+    color: (json['color'] as num?)?.toInt() ?? 0xFF3F51B5,
+    icon: json['icon'] as String?,
+    note: json['note'] as String?,
+    createdAt:
+        DateTime.tryParse(json['createdAt'] as String? ?? '') ?? DateTime.now(),
+  );
 }
 
 /// Palette offered when creating/editing a card.
@@ -124,5 +123,16 @@ const kCardPalette = <int>[
 ];
 
 const kCardIcons = <String>[
-  '🛒', '☕', '🍔', '⛽', '💊', '📚', '🎬', '✈️', '🏋️', '🐾', '🎟️', '💳',
+  '🛒',
+  '☕',
+  '🍔',
+  '⛽',
+  '💊',
+  '📚',
+  '🎬',
+  '✈️',
+  '🏋️',
+  '🐾',
+  '🎟️',
+  '💳',
 ];

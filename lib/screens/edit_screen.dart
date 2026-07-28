@@ -40,7 +40,8 @@ class _EditScreenState extends State<EditScreen> {
     _data = TextEditingController(text: e?.data ?? widget.initialData ?? '');
     _note = TextEditingController(text: e?.note ?? '');
     _format = e?.format ?? widget.initialFormat ?? CodeFormat.qr;
-    _color = e?.color ??
+    _color =
+        e?.color ??
         kCardPalette[DateTime.now().microsecond % kCardPalette.length];
     _icon = e?.icon;
   }
@@ -67,39 +68,42 @@ class _EditScreenState extends State<EditScreen> {
     final store = CodeStore.instance;
     final note = _note.text.trim();
     if (widget.existing != null) {
-      await store.update(widget.existing!.copyWith(
-        label: _label.text.trim(),
-        data: _data.text.trim(),
-        format: _format,
-        color: _color,
-        icon: _icon,
-        note: note.isEmpty ? null : note,
-      ));
+      await store.update(
+        widget.existing!.copyWith(
+          label: _label.text.trim(),
+          data: _data.text.trim(),
+          format: _format,
+          color: _color,
+          icon: _icon,
+          note: note.isEmpty ? null : note,
+        ),
+      );
     } else {
-      await store.add(CodeEntry(
-        id: const Uuid().v4(),
-        label: _label.text.trim(),
-        data: _data.text.trim(),
-        format: _format,
-        color: _color,
-        icon: _icon,
-        note: note.isEmpty ? null : note,
-        createdAt: DateTime.now(),
-      ));
+      await store.add(
+        CodeEntry(
+          id: const Uuid().v4(),
+          label: _label.text.trim(),
+          data: _data.text.trim(),
+          format: _format,
+          color: _color,
+          icon: _icon,
+          note: note.isEmpty ? null : note,
+          createdAt: DateTime.now(),
+        ),
+      );
     }
     if (mounted) Navigator.of(context).pop(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    final valid = _validateForFormat(_data.text.trim()) == null &&
+    final valid =
+        _validateForFormat(_data.text.trim()) == null &&
         _data.text.trim().isNotEmpty;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.existing == null ? 'Add card' : 'Edit card'),
-        actions: [
-          TextButton(onPressed: _save, child: const Text('Save')),
-        ],
+        actions: [TextButton(onPressed: _save, child: const Text('Save'))],
       ),
       body: Form(
         key: _formKey,
@@ -175,8 +179,11 @@ class _EditScreenState extends State<EditScreen> {
                         ),
                       ),
                       child: _color == c
-                          ? const Icon(Icons.check,
-                              color: Colors.white, size: 20)
+                          ? const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 20,
+                            )
                           : null,
                     ),
                   ),

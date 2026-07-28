@@ -90,3 +90,10 @@ elsewhere it degrades gracefully to a no-op.
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## CI
+
+`.github/workflows/build.yml` runs `dart format` + `flutter analyze` and builds
+release artifacts for Android (APK + AAB), iOS (unsigned IPA), macOS, Linux,
+Windows and web on every push/PR. Pushing a `v*` tag publishes all artifacts to
+a GitHub Release.

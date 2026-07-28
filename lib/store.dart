@@ -68,9 +68,9 @@ class CodeStore extends ChangeNotifier {
   }
 
   String encode() => const JsonEncoder.withIndent('  ').convert({
-        'version': _schemaVersion,
-        'codes': _codes.map((c) => c.toJson()).toList(),
-      });
+    'version': _schemaVersion,
+    'codes': _codes.map((c) => c.toJson()).toList(),
+  });
 
   static List<CodeEntry> _decode(String raw) {
     final decoded = jsonDecode(raw);

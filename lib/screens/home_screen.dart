@@ -19,10 +19,8 @@ class HomeScreen extends StatelessWidget {
     if (result == null || !context.mounted) return;
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => EditScreen(
-          initialData: result.data,
-          initialFormat: result.format,
-        ),
+        builder: (_) =>
+            EditScreen(initialData: result.data, initialFormat: result.format),
       ),
     );
   }
@@ -42,9 +40,7 @@ class HomeScreen extends StatelessWidget {
             );
           }
         } catch (e) {
-          messenger.showSnackBar(
-            SnackBar(content: Text('Import failed: $e')),
-          );
+          messenger.showSnackBar(SnackBar(content: Text('Import failed: $e')));
         }
     }
   }
@@ -84,9 +80,7 @@ class HomeScreen extends StatelessWidget {
                 key: ValueKey(entry.id),
                 entry: entry,
                 onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ViewScreen(id: entry.id),
-                  ),
+                  MaterialPageRoute(builder: (_) => ViewScreen(id: entry.id)),
                 ),
               );
             },
@@ -100,9 +94,9 @@ class HomeScreen extends StatelessWidget {
           FloatingActionButton.small(
             heroTag: 'manual',
             tooltip: 'Enter manually',
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const EditScreen()),
-            ),
+            onPressed: () => Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const EditScreen())),
             child: const Icon(Icons.keyboard),
           ),
           const SizedBox(height: 8),
@@ -116,8 +110,7 @@ class HomeScreen extends StatelessWidget {
           FloatingActionButton.extended(
             heroTag: 'scan',
             onPressed: () => _scan(context),
-            icon: Icon(
-                cameraScanSupported ? Icons.qr_code_scanner : Icons.add),
+            icon: Icon(cameraScanSupported ? Icons.qr_code_scanner : Icons.add),
             label: Text(cameraScanSupported ? 'Scan' : 'Add'),
           ),
         ],
@@ -182,10 +175,8 @@ class _CodeTile extends StatelessWidget {
                         drawText: false,
                         color: Colors.black,
                         padding: const EdgeInsets.all(4),
-                        errorBuilder: (_, _) => const Icon(
-                          Icons.error_outline,
-                          color: Colors.red,
-                        ),
+                        errorBuilder: (_, _) =>
+                            const Icon(Icons.error_outline, color: Colors.red),
                       ),
               ),
             ),
@@ -236,8 +227,7 @@ class _EmptyState extends StatelessWidget {
           children: [
             const Icon(Icons.wallet_outlined, size: 80),
             const SizedBox(height: 16),
-            Text('No cards yet',
-                style: Theme.of(context).textTheme.titleLarge),
+            Text('No cards yet', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),
             const Text(
               'Scan a loyalty card, import a screenshot, '

@@ -70,19 +70,15 @@ ScanResult? decodeQrFromBytes(Uint8List bytes) {
   if (image == null) return null;
 
   // Downscale huge screenshots a bit; keeps decode fast without hurting rate.
-  final src = image.width > 2000
-      ? img.copyResize(image, width: 2000)
-      : image;
+  final src = image.width > 2000 ? img.copyResize(image, width: 2000) : image;
 
   final pixels = Int32List(src.width * src.height);
   var i = 0;
   for (var y = 0; y < src.height; y++) {
     for (var x = 0; x < src.width; x++) {
       final p = src.getPixel(x, y);
-      pixels[i++] = (0xFF << 24) |
-          (p.r.toInt() << 16) |
-          (p.g.toInt() << 8) |
-          p.b.toInt();
+      pixels[i++] =
+          (0xFF << 24) | (p.r.toInt() << 16) | (p.g.toInt() << 8) | p.b.toInt();
     }
   }
 

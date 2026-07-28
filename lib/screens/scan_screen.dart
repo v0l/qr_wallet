@@ -99,7 +99,8 @@ class _ScanScreenState extends State<ScanScreen> {
           ? const SizedBox(
               width: 18,
               height: 18,
-              child: CircularProgressIndicator(strokeWidth: 2))
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
           : const Icon(Icons.image_outlined),
       label: const Text('Import from image'),
     );
@@ -119,7 +120,7 @@ class _ScanScreenState extends State<ScanScreen> {
                   cameraScanSupported
                       ? 'Pick an image containing a code.'
                       : 'Camera scanning is not available on this platform.\n'
-                          'Pick a screenshot or photo containing a QR code.',
+                            'Pick a screenshot or photo containing a QR code.',
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),

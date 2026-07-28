@@ -66,8 +66,10 @@ class _ViewScreenState extends State<ViewScreen> {
               foregroundColor: Colors.black,
               elevation: 0,
               systemOverlayStyle: SystemUiOverlayStyle.dark,
-              title: Text(entry.label,
-                  style: const TextStyle(color: Colors.black)),
+              title: Text(
+                entry.label,
+                style: const TextStyle(color: Colors.black),
+              ),
               actions: [
                 IconButton(
                   tooltip: 'Edit',
