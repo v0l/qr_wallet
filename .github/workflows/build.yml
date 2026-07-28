@@ -207,6 +207,9 @@ jobs:
       - uses: actions/download-artifact@v8
         with:
           path: dist
+          # Our .zip/.tar.gz bundles are artifacts in their own right; don't
+          # let the action unpack them.
+          skip-decompress: true
       - name: Flatten
         run: |
           mkdir -p out
@@ -231,11 +234,20 @@ jobs:
       - uses: actions/download-artifact@v8
         with:
           path: dist
+          # Our .zip/.tar.gz bundles are artifacts in their own right; don't
+          # let the action unpack them.
+          skip-decompress: true
       - name: Flatten
         run: |
           mkdir -p out
           find dist -type f -exec mv {} out/ \;
           ls -la out
+      - name: Delete stale nightly assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view nightly --json assets -q '.assets[].name' 2>/dev/null |
+            while read -r a; do gh release delete-asset nightly "$a" -y; done || true
       - name: Move nightly tag
         run: |
           git tag -f nightly
