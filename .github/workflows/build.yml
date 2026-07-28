@@ -50,12 +50,22 @@ jobs:
         run: flutter build apk --release
       - name: Build App Bundle (release)
         run: flutter build appbundle --release
+      - name: Rename outputs
+        run: |
+          mv build/app/outputs/flutter-apk/app-release.apk qr-wallet-android.apk
+          mv build/app/outputs/bundle/release/app-release.aab qr-wallet-android.aab
+      # NOTE: GitHub always wraps downloaded artifacts in a .zip. For a
+      # directly installable APK use the rolling `nightly` release (main) or a
+      # tagged release, where assets are attached raw.
       - uses: actions/upload-artifact@v4
         with:
-          name: android
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/bundle/release/app-release.aab
+          name: android-apk
+          path: qr-wallet-android.apk
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-aab
+          path: qr-wallet-android.aab
           if-no-files-found: error
 
   # -------------------------------------------------------------------- iOS ---
@@ -190,8 +200,49 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: dist
+      - name: Flatten
+        run: |
+          mkdir -p out
+          find dist -type f -exec mv {} out/ \;
+          ls -la out
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/**/*
+          files: out/*
           generate_release_notes: true
+
+  # ------------------------------------- Rolling nightly release (on main) ----
+  # Artifacts from the Actions UI are always zipped; this attaches the raw
+  # files (installable .apk, etc.) to a rolling pre-release instead.
+  nightly:
+    if: github.ref == 'refs/heads/main'
+    needs: [android, ios, macos, linux, windows, web]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+      - name: Flatten
+        run: |
+          mkdir -p out
+          find dist -type f -exec mv {} out/ \;
+          ls -la out
+      - name: Move nightly tag
+        run: |
+          git tag -f nightly
+          git push -f origin nightly
+      - name: Publish rolling pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly
+          name: Nightly (${{ github.sha }})
+          body: |
+            Automatic build of `main` @ ${{ github.sha }}.
+
+            Download `qr-wallet-android.apk` and install it directly.
+          prerelease: true
+          make_latest: false
+          files: out/*
