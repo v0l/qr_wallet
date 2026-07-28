@@ -43,6 +43,26 @@ flutter build linux        # or macos / windows / web / ios
 | `lib/screens/scan_screen.dart` | Camera scanner + image import |
 | `lib/screens/view_screen.dart` | Fullscreen code, max brightness |
 
+## Branding
+
+Source art lives in `branding/` as SVG; the PNGs consumed by the icon/splash
+generators are rendered from it:
+
+```bash
+cd branding && npm install && npm run build   # SVG -> PNG (resvg)
+cd .. && dart run flutter_launcher_icons       # app icons, all platforms
+dart run flutter_native_splash:create          # native splash screens
+```
+
+| File | Used for |
+| --- | --- |
+| `branding/icon.svg` | Full app icon tile (iOS/macOS/Windows/web) |
+| `branding/icon-foreground.svg` | Android adaptive icon foreground |
+| `branding/splash.svg` | Native splash logo |
+| `branding/splash-android12.svg` | Android 12+ splash icon (larger safe area) |
+
+Palette: background `#0E1130`, code modules `#7C8CFF`, card accent `#33C39A`.
+
 ## Storage
 
 Native platforms: `<app support dir>/codes.json`, written atomically

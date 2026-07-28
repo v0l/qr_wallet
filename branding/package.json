@@ -1,0 +1,13 @@
+{
+  "name": "branding",
+  "private": true,
+  "description": "Renders the QR Wallet SVG source art to the PNGs used by flutter_launcher_icons / flutter_native_splash.",
+  "main": "render.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "node render.js icon.svg icon-1024.png 1024 && node render.js icon-foreground.svg foreground-1024.png 1024 && node render.js splash.svg splash-1024.png 1024 && node render.js splash-android12.svg splash-android12.png 1024"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2"
+  }
+}

@@ -1,0 +1,67 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Tile background: indigo-black, lit from the top-left -->
+    <linearGradient id="tile" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1B1F45"/>
+      <stop offset="1" stop-color="#0E1130"/>
+    </linearGradient>
+    <!-- Code modules: bright at the top-left, deepening toward the card -->
+    <linearGradient id="code" x1="280" y1="280" x2="744" y2="744" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A7B4FF"/>
+      <stop offset="0.55" stop-color="#7C8CFF"/>
+      <stop offset="1" stop-color="#5566E8"/>
+    </linearGradient>
+    <!-- The card that replaces the fourth finder -->
+    <linearGradient id="card" x1="556" y1="584" x2="744" y2="728" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8FE3C6"/>
+      <stop offset="1" stop-color="#33C39A"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
+      <stop stop-color="#7C8CFF" stop-opacity="0.40"/>
+      <stop offset="1" stop-color="#7C8CFF" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- One QR finder pattern: ring + centre module -->
+    <g id="finder">
+      <rect x="14" y="14" width="104" height="104" rx="18" fill="none"
+            stroke="url(#code)" stroke-width="28"/>
+      <rect x="46" y="46" width="40" height="40" rx="10" fill="url(#code)"/>
+    </g>
+  </defs>
+
+  <!-- Tile -->
+  <rect width="1024" height="1024" rx="224" fill="url(#tile)"/>
+  <!-- hairline inner bezel for depth -->
+  <rect x="4" y="4" width="1016" height="1016" rx="220" fill="none"
+        stroke="#3A417A" stroke-opacity="0.5" stroke-width="2"/>
+
+  <circle cx="512" cy="512" r="340" fill="url(#glow)"/>
+
+  <!-- Three QR finders; the fourth corner is a loyalty card -->
+  <use href="#finder" x="280" y="280"/>
+  <use href="#finder" x="612" y="280"/>
+  <use href="#finder" x="280" y="612"/>
+
+  <!-- Data modules running diagonally through the code -->
+  <g fill="url(#code)">
+    <rect x="452" y="280" width="40" height="40" rx="10"/>
+    <rect x="508" y="336" width="40" height="40" rx="10"/>
+    <rect x="452" y="392" width="40" height="40" rx="10"/>
+    <rect x="508" y="448" width="40" height="40" rx="10"/>
+    <rect x="452" y="504" width="40" height="40" rx="10"/>
+    <rect x="620" y="448" width="40" height="40" rx="10"/>
+    <rect x="452" y="616" width="40" height="40" rx="10"/>
+    <rect x="396" y="616" width="40" height="40" rx="10" fill-opacity="0.55"/>
+    <rect x="676" y="504" width="40" height="40" rx="10" fill-opacity="0.55"/>
+    <rect x="396" y="504" width="40" height="40" rx="10" fill-opacity="0.55"/>
+  </g>
+
+  <!-- Wallet card in the bottom-right corner -->
+  <g>
+    <rect x="556" y="584" width="188" height="144" rx="26" fill="url(#card)"/>
+    <rect x="556" y="620" width="188" height="26" fill="#0E1130" fill-opacity="0.55"/>
+    <rect x="580" y="672" width="76" height="18" rx="9" fill="#0E1130" fill-opacity="0.35"/>
+    <rect x="556" y="584" width="188" height="144" rx="26" fill="none"
+          stroke="#C8F5E6" stroke-opacity="0.35" stroke-width="6"/>
+  </g>
+</svg>

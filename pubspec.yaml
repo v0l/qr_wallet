@@ -42,7 +42,7 @@ dependencies:
   uuid: ^4.6.0
   file_selector: ^1.1.0
   zxing2: ^0.2.4
-  image: ^4.9.1
+  image: ^4.5.4
   shared_preferences: ^2.5.5
 
 dev_dependencies:
@@ -55,6 +55,41 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.7
+
+# Native splash screen: `dart run flutter_native_splash:create`.
+# Brand-dark background with the QR-card mark centred.
+flutter_native_splash:
+  color: "#0E1130"
+  image: branding/splash-1024.png
+  color_dark: "#0E1130"
+  image_dark: branding/splash-1024.png
+  android_12:
+    color: "#0E1130"
+    image: branding/splash-android12.png
+    color_dark: "#0E1130"
+    image_dark: branding/splash-android12.png
+
+# App icon generation: `dart run flutter_launcher_icons`.
+# Source art lives in branding/ (rendered from the SVGs there via `npm run build`).
+flutter_launcher_icons:
+  image_path: "branding/icon-1024.png"
+  android: true
+  min_sdk_android: 21
+  adaptive_icon_background: "#0E1130"
+  adaptive_icon_foreground: "branding/foreground-1024.png"
+  ios: true
+  remove_alpha_ios: true
+  web:
+    generate: true
+    background_color: "#0E1130"
+    theme_color: "#7C8CFF"
+  windows:
+    generate: true
+    icon_size: 256
+  macos:
+    generate: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
